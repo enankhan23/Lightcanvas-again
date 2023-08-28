@@ -1,12 +1,8 @@
-from flask import Flask, render_template
 import cv2
 import numpy as np
 import math
 
-app = Flask(__name__)
-
 def match_template(image, template):
-    # ... Your template matching code ...
     # Convert the image and template to grayscale
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray_template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
@@ -21,26 +17,25 @@ def match_template(image, template):
 
     # Draw a rectangle around the matched region
     matched_image = cv2.rectangle(image.copy(), top_left, bottom_right, (0, 255, 0), 2)
-
+    
     # Calculate the similarity score
     similarity_score = max_val
 
-    return similarity_score
+    return matched_image, similarity_score
 
-@app.route('/')
-def index():
-    # Load the image and template
-    image = cv2.imread("E:\\4-1\\IDP\\star.jpg")
-    template = cv2.imread("E:\\4-1\\IDP\\star_template.jpg")
+# Load the image and template
+image = cv2.imread("/home/khaled/Desktop/test_trial/perfect_star.jpg")
+template = cv2.imread("/home/khaled/Desktop/test_trial/server.jpg")
 
-    # Perform template matching and get the similarity score
-    similarity_score = match_template(image, template)
 
-    # Calculate the similarity score as a percentage
-    #similarity_score_percent = math.ceil(similarity_score * 100)
-    similarity_score_percent= similarity_score
+# Perform template matching and get the matched image and similarity score
+matched_image, similarity_score = match_template(image, template)
 
-    return render_template('result.html', similarity_score=similarity_score_percent)
+# Display the original image and the matched image
+cv2.imshow('Template Image', template)
+cv2.imshow('Matched Image', matched_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Print the similarity score
+print('Similarity Score:', math.ceil(similarity_score*100))

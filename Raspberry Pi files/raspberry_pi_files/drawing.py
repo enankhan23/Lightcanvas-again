@@ -5,8 +5,7 @@ import numpy as np
 cap = cv2.VideoCapture(0)
  
 # Create a list to store the detected coordinates
-detected_coordinates = [[]]
-detected_in_last_frame = False
+detected_coordinates = []
  
 # Create a blank image of size 500x500 and 3 channels (RGB)
 img = np.zeros((500, 500, 3), np.uint8)
@@ -64,44 +63,34 @@ while True:
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
             # Check the contour area to filter based on size
-            if cv2.contourArea(contour) > 100:  # Adjust the size threshold as needed
-                if not detected_in_last_frame:
-                    detected_coordinates.append([])
-                current_coordinates = detected_coordinates[-1]
-                current_coordinates.append((cx, cy))
+            if cv2.contourArea(contour) > 150:  # Adjust the size threshold as needed
+                detected_coordinates.append((cx, cy))
                 cv2.circle(frame, (cx, cy), 3, (0, 0, 255), -1)  # Draw a red circle at the center
                 cv2.putText(frame, f"({cx}, {cy})", (cx + 5, cy - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-                detected_in_last_frame = True
-    else:
-        detected_in_last_frame = False
  
-    # Display the frame
+   # Display the frame
     cv2.imshow('Webcam', frame)
- 
-    # Exit the loop if 'q' is pressed
+     # Exit the loop if 'q' is pressed
     if cv2.waitKey(1) == ord('q'):
         break
+for i in range(1,len(detected_coordinates)):
+ cv2.line(img,detected_coordinates[i-1], detected_coordinates[i], (0, 255, 0), 2)
  
-# Draw lines for each detected drawing action
-for coordinates in detected_coordinates:
-    for i in range(1, len(coordinates)):
-        cv2.line(img, coordinates[i-1], coordinates[i], (0, 255, 0), 2)
- 
-cv2.imshow('Flipped Line Image', img)
+ cv2.imshow('Flipped Line Image', img)
  # Specify the file path and name for saving the image
-image_path = '/home/pi/Desktop/test_trial/flower.jpg'  # Change the path to your desired desktop location
+image_path = '/home/khaled/Desktop/test_trial/latest.jpg'  # Change the path to your desired desktop location
  
 # Save the 'img' file as a JPG image
 cv2.imwrite(image_path, img)
- 
+
 img_saved = cv2.imread(image_path)
- 
- 
+
+
 img_flipped = cv2.flip(img_saved,-1)
- 
+
 cv2.imwrite(image_path,img_flipped)
- 
- 
+
+
 # Release the resources and close the windows
 cap.release()
 cv2.destroyAllWindows()

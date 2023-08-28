@@ -1,5 +1,3 @@
-#updated code so far
- 
 import cv2
 import numpy as np
  
@@ -9,9 +7,12 @@ cap = cv2.VideoCapture(0)
 # Create a list to store the detected coordinates
 detected_coordinates = []
  
+background_color = (251, 243, 251)
+
 # Create a blank image of size 500x500 and 3 channels (RGB)
-img = np.zeros((500, 500, 3), np.uint8)
- 
+#img = np.zeros((500, 500, 3), np.uint8)
+
+img = np.full((500, 500, 3),background_color, dtype=np.uint8)
 while True:
     # Read the frame from the webcam
     ret, frame = cap.read()
@@ -65,7 +66,7 @@ while True:
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
             # Check the contour area to filter based on size
-            if cv2.contourArea(contour) > 100:  # Adjust the size threshold as needed
+            if cv2.contourArea(contour) > 150:  # Adjust the size threshold as needed
                 detected_coordinates.append((cx, cy))
                 cv2.circle(frame, (cx, cy), 3, (0, 0, 255), -1)  # Draw a red circle at the center
                 cv2.putText(frame, f"({cx}, {cy})", (cx + 5, cy - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
@@ -80,19 +81,19 @@ for i in range(1,len(detected_coordinates)):
  
  cv2.imshow('Flipped Line Image', img)
  # Specify the file path and name for saving the image
-image_path = '/home/pi/Desktop/test_trial/flower.jpg'  # Change the path to your desired desktop location
+image_path = '/home/khaled/Desktop/test_trial/latest.jpg'  # Change the path to your desired desktop location
  
 # Save the 'img' file as a JPG image
 cv2.imwrite(image_path, img)
- 
+
 img_saved = cv2.imread(image_path)
- 
- 
+
+
 img_flipped = cv2.flip(img_saved,-1)
- 
+
 cv2.imwrite(image_path,img_flipped)
- 
- 
+
+
 # Release the resources and close the windows
 cap.release()
 cv2.destroyAllWindows()
