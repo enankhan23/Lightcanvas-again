@@ -9,14 +9,14 @@ def calculate_contour_similarity(contours1, contours2):
     for contour1 in contours1:
         min_similarity = float('inf')
         for contour2 in contours2:
-            similarity = cv2.matchShapes(contour1, contour2, cv2.CONTOURS_MATCH_I1, 0)
+            similarity = cv2.matchShapes(contour1, contour2, cv2.CONTOURS_MATCH_I3, 0)
             if similarity < min_similarity:
                 min_similarity = similarity
         total_similarity += min_similarity
     return total_similarity / len(contours1)
 
 # Load the image and template
-image = cv2.imread("E:\\4-1\\IDP\\circle_2.jpg")
+image = cv2.imread("E:\\4-1\\IDP\\star2.jpg")
 template = cv2.imread("E:\\4-1\\IDP\\perfect_star.jpg")
 
 # Convert images to grayscale

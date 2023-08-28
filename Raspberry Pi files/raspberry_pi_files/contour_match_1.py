@@ -12,7 +12,7 @@ def match_template(image, template):
     _, binary_img2 = cv2.threshold(gray_template, 100, 255, cv2.THRESH_BINARY)
     contour1, heirarchy = cv2.findContours(binary_img1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contour2, heirarchy = cv2.findContours(binary_img2, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cont_diff = cv2.matchShapes(contour1[0],contour2[0],cv2.CONTOURS_MATCH_I1,0)
+    cont_diff = cv2.matchShapes(contour1[0],contour2[0],cv2.CONTOURS_MATCH_I2,0)
     
     # Calculate the similarity score
     similarity_score = cont_diff
@@ -36,4 +36,4 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # Print the similarity score
-print('Similarity Score:', (similarity_score)
+print('Similarity Score:', (similarity_score))
