@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
 import 'dart:convert';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import 'signup.dart';
 import 'mode.dart';
@@ -24,7 +25,7 @@ class _FetchStarState extends State<FetchStar> {
   String similarityUrl =
       'http://your_server_ip:your_port'; // Replace with your server URL for similarity score
   int current_Index = 2;
-  double similarityScore = 0.0;
+  double similarityScore = 15;
 
   Future<void> saveImageAndFetchSimilarity() async {
     var imageResponse = await http.get(Uri.parse(imageUrl));
@@ -50,6 +51,9 @@ class _FetchStarState extends State<FetchStar> {
       final data = json.decode(similarityResponse.body);
       setState(() {
         similarityScore = data['similarity_score'];
+        if (similarityScore == 0) {
+          similarityScore = 100;
+        }
       });
     } else {
       throw Exception('Failed to fetch similarity score');
@@ -128,6 +132,8 @@ class _FetchStarState extends State<FetchStar> {
                 shape: BoxShape.rectangle,
               ),
             ),
+
+            //--------------save image button------------------------------//
             SizedBox(
               height: 50,
               width: 300,
@@ -148,6 +154,20 @@ class _FetchStarState extends State<FetchStar> {
                     color: Colors.white,
                   ),
                 ),
+              ),
+            ),
+
+            //--------------------save image button---------------//
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+            ),
+            SizedBox(
+              child: CircularPercentIndicator(
+                radius: 100,
+                lineWidth: 20,
+                percent: similarityScore / 100,
+                progressColor: const Color(0xFFEE6B0E),
+                backgroundColor: Colors.grey,
               ),
             ),
             Text(

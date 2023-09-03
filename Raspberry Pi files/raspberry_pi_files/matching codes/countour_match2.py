@@ -16,8 +16,8 @@ def calculate_contour_similarity(contours1, contours2):
     return total_similarity / len(contours1)
 
 # Load the image and template
-image = cv2.imread("E:\\4-1\\IDP\\star2.jpg")
-template = cv2.imread("E:\\4-1\\IDP\\perfect_star.jpg")
+image = cv2.imread("E:\\4-1\\IDP\\perfect_star.jpg")
+template = cv2.imread("E:\\4-1\\IDP\\star2.jpg")
 
 # Convert images to grayscale
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

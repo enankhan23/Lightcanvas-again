@@ -20,7 +20,7 @@ def match_template(image, template):
     return binary_img1, binary_img2,similarity_score
 
 # Load the image and template
-image = cv2.imread("E:\\4-1\\IDP\\circle_2.jpg")
+image = cv2.imread("E:\\4-1\\IDP\\green_dot1.png")
 template = cv2.imread("E:\\4-1\\IDP\\perfect_star.jpg")
 
 
