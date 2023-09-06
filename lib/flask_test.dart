@@ -17,7 +17,7 @@ class ImageScreen extends StatefulWidget {
 }
 
 class _ImageScreenState extends State<ImageScreen> {
-  String url = 'http://192.168.150.200:5000/image';
+  String url = 'http://raspberrypi:5000/image';
   int current_Index = 2;
 
   Future<void> saveImage() async {
